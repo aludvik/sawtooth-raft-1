@@ -24,7 +24,7 @@ use raft::Config as RaftConfig;
 use sawtooth_sdk::consensus::{engine::{BlockId, PeerId}, service::Service};
 use serde_json;
 
-use cached_storage::CachedStorage;
+use simple_read_cache::ReadCachedStorage as CachedStorage;
 use fs_storage::FsStorage;
 use path::get_path_config;
 use storage::StorageExt;
