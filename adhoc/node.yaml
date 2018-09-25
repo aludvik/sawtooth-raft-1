@@ -34,7 +34,7 @@ services:
   validator:
     image: sawtooth-validator
     labels:
-      - "com.sawtooth.isolation_id=${ISOLATION_ID}"
+      - "com.sawtooth.isolation_id=${ISOLATION_ID:-}"
     command: "bash -c \"\
       if [ ! -e /etc/sawtooth/keys/validator.pub ]; then sawadm keygen; fi && \
       if [ ! -e /shared_data/validators/$$(hostname) ]; then \
@@ -95,7 +95,7 @@ services:
   raft:
     image: sawtooth-raft-engine-local
     labels:
-      - "com.sawtooth.isolation_id=${ISOLATION_ID}"
+      - "com.sawtooth.isolation_id=${ISOLATION_ID:-}"
     build:
       context: .
       dockerfile: ../Dockerfile
@@ -107,7 +107,7 @@ services:
   rest-api:
     image: sawtooth-rest-api
     labels:
-      - "com.sawtooth.isolation_id=${ISOLATION_ID}"
+      - "com.sawtooth.isolation_id=${ISOLATION_ID:-}"
     command: "bash -c \"
       if [ ! -e /shared_data/rest_apis/$$(hostname) ]; then \
         touch /shared_data/rest_apis/$$(hostname);
@@ -126,13 +126,13 @@ services:
   intkey-tp-python:
     image: sawtooth-intkey-tp-python
     labels:
-      - "com.sawtooth.isolation_id=${ISOLATION_ID}"
+      - "com.sawtooth.isolation_id=${ISOLATION_ID:-}"
     command: intkey-tp-python -vv -C tcp://validator:4004
     stop_signal: SIGKILL
 
   settings-tp:
     image: sawtooth-settings-tp
     labels:
-      - "com.sawtooth.isolation_id=${ISOLATION_ID}"
+      - "com.sawtooth.isolation_id=${ISOLATION_ID:-}"
     command: settings-tp -C tcp://validator:4004 -v
     stop_signal: SIGKILL
